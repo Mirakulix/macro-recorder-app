@@ -26,10 +26,17 @@
 
     <!-- Permission dialog -->
     <string name="permission_dialog_title">Permissions required</string>
-    <string name="permission_accessibility_label">Accessibility Service</string>
+    <string name="permission_dialog_subtitle">Macro Recorder needs the following permissions to record and replay touch inputs:</string>
     <string name="permission_overlay_label">Display over other apps</string>
+    <string name="permission_overlay_desc">Shows the floating recording widget above all other apps.</string>
+    <string name="permission_accessibility_label">Accessibility Service</string>
+    <string name="permission_accessibility_desc">Captures and replays touchscreen inputs.</string>
     <string name="permission_notification_label">Notifications</string>
+    <string name="permission_notification_desc">Shows status updates while recording or playing macros.</string>
+    <string name="permission_exact_alarm_label">Schedule exact alarms</string>
+    <string name="permission_exact_alarm_desc">Starts macros at precisely the scheduled time.</string>
     <string name="btn_go_to_settings">Go to Settings</string>
+    <string name="btn_fix">Fix</string>
     <string name="btn_later">Later</string>
 
     <!-- General -->

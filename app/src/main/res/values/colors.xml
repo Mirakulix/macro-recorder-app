@@ -18,4 +18,8 @@
 
     <!-- Recording indicator (pulsing red dot on overlay widget) -->
     <color name="recording_indicator">#F44336</color>
+
+    <!-- Permission dialog status icons -->
+    <color name="permission_granted">#4CAF50</color>
+    <color name="permission_denied">#F44336</color>
 </resources>
