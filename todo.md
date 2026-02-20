@@ -2,9 +2,9 @@
 
 ## 📋 Projekt-Setup & Planung
 
-- [ ] Projekt-Repository auf GitHub/GitLab erstellen
-- [ ] Android Studio Projekt initialisieren (Kotlin/Java)
-- [ ] Gradle-Konfiguration einrichten
+- [x] Projekt-Repository auf GitHub/GitLab erstellen
+- [x] Android Studio Projekt initialisieren (Kotlin/Java)
+- [x] Gradle-Konfiguration einrichten
 - [ ] Minimum SDK Version festlegen (empfohlen: API 24/Android 7.0)
 - [ ] Target SDK Version festlegen (aktuell: API 34/Android 14)
 - [ ] Git .gitignore für Android konfigurieren
