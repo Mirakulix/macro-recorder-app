@@ -134,10 +134,10 @@ object MacroScheduler {
 
     // ── Request codes (must be stable across process restarts) ────────────────
 
-    /** One-time alarm request code for [macroId]. */
-    private fun requestCodeOnce(macroId: String): Int = macroId.hashCode() and 0x0FFFFFFF
+    /** One-time alarm request code for [macroId]. Internal for testing. */
+    internal fun requestCodeOnce(macroId: String): Int = macroId.hashCode() and 0x0FFFFFFF
 
-    /** Interval alarm request code for [macroId] (offset to avoid collision with once). */
-    private fun requestCodeInterval(macroId: String): Int =
+    /** Interval alarm request code for [macroId] (offset to avoid collision with once). Internal for testing. */
+    internal fun requestCodeInterval(macroId: String): Int =
         (macroId.hashCode() and 0x0FFFFFFF) or 0x10000000
 }

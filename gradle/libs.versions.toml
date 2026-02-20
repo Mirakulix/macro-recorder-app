@@ -16,6 +16,7 @@ gson = "2.10.1"
 junit = "4.13.2"
 androidxJunit = "1.1.5"
 espresso = "3.5.1"
+mockk = "1.13.10"
 
 [libraries]
 core-ktx                = { group = "androidx.core",                    name = "core-ktx",                    version.ref = "coreKtx" }
@@ -37,6 +38,8 @@ gson                    = { group = "com.google.code.gson",             name = "
 junit                   = { group = "junit",                            name = "junit",                       version.ref = "junit" }
 androidx-junit          = { group = "androidx.test.ext",                name = "junit",                       version.ref = "androidxJunit" }
 espresso-core           = { group = "androidx.test.espresso",           name = "espresso-core",               version.ref = "espresso" }
+coroutines-test         = { group = "org.jetbrains.kotlinx",            name = "kotlinx-coroutines-test",     version.ref = "coroutines" }
+mockk                   = { group = "io.mockk",                         name = "mockk",                       version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application",        version.ref = "agp" }

@@ -67,9 +67,9 @@ class ScheduledMacroReceiver : BroadcastReceiver() {
 
     /**
      * Returns true if [selectedDays] is empty (= every day) or contains today's
-     * [Calendar.DAY_OF_WEEK] value (Sunday=1 … Saturday=7).
+     * [Calendar.DAY_OF_WEEK] value (Sunday=1 … Saturday=7). Internal for testing.
      */
-    private fun isTodayActive(selectedDays: List<Int>): Boolean {
+    internal fun isTodayActive(selectedDays: List<Int>): Boolean {
         if (selectedDays.isEmpty()) return true
         val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         return today in selectedDays
