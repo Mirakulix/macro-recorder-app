@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.macros.collect { macros ->
                     adapter.submitList(macros)
-                    binding.tvEmptyState.visibility =
+                    binding.emptyStateContainer.visibility =
                         if (macros.isEmpty()) View.VISIBLE else View.GONE
                 }
             }

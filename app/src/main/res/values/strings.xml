@@ -10,6 +10,8 @@
     <string name="menu_settings">Settings</string>
     <string name="label_saved_macros">Saved Macros</string>
     <string name="label_no_macros">No macros yet.\nTap the button to record your first macro.</string>
+    <string name="empty_state_title">No macros yet</string>
+    <string name="empty_state_subtitle">Tap the button below to\nrecord your first macro</string>
 
     <!-- Notification channels -->
     <string name="notification_channel_recording_name">Recording</string>

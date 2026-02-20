@@ -16,6 +16,10 @@
     <color name="on_surface">#1C1B1F</color>
     <color name="surface_variant">#F5F5F5</color>
 
+    <!-- Empty state illustration -->
+    <color name="empty_state_icon">#546E7A</color>   <!-- secondary -->
+    <color name="empty_state_ring">#80546E7A</color>  <!-- secondary @ 50 % alpha -->
+
     <!-- Recording indicator (pulsing red dot on overlay widget) -->
     <color name="recording_indicator">#F44336</color>
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Empty-state illustration: a stylised "tap gesture" with three concentric
+  circles — two outer rings (stroke only) and a filled centre dot.
+  Use app:tint on the ImageView to apply the current theme colour.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Outer ring -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/empty_state_ring"
+        android:strokeWidth="2"
+        android:pathData="M48,48 m-44,0 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0" />
+
+    <!-- Middle ring -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/empty_state_ring"
+        android:strokeWidth="2.5"
+        android:pathData="M48,48 m-30,0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" />
+
+    <!-- Centre dot -->
+    <path
+        android:fillColor="@color/empty_state_icon"
+        android:pathData="M48,48 m-14,0 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0" />
+
+    <!-- Small record indicator on top-right of centre dot -->
+    <path
+        android:fillColor="@color/recording_indicator"
+        android:pathData="M60,34 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+
+</vector>
