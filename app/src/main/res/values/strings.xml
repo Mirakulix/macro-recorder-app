@@ -68,6 +68,24 @@
     <string name="label_vibration">Vibration feedback</string>
     <string name="label_visual_indicator">Visual touch indicator</string>
 
+    <!-- Macro detail — schedule section -->
+    <string name="section_schedule">Schedule</string>
+    <string name="label_run_once_at">Run once at</string>
+    <string name="label_not_scheduled">Not scheduled</string>
+    <string name="btn_set_schedule">Set</string>
+    <string name="btn_clear_schedule">Clear</string>
+    <string name="hint_interval_minutes">Repeat every (minutes)</string>
+    <string name="label_active_days">Active days (empty = every day)</string>
+    <string name="day_mon">Mon</string>
+    <string name="day_tue">Tue</string>
+    <string name="day_wed">Wed</string>
+    <string name="day_thu">Thu</string>
+    <string name="day_fri">Fri</string>
+    <string name="day_sat">Sat</string>
+    <string name="day_sun">Sun</string>
+    <string name="picker_select_date">Select date</string>
+    <string name="picker_select_time">Select time</string>
+
     <!-- General -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>

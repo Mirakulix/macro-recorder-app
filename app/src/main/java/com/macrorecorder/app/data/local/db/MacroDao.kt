@@ -28,4 +28,8 @@ interface MacroDao {
 
     @Query("DELETE FROM macros WHERE id = :id")
     suspend fun deleteMacroById(id: String)
+
+    /** One-shot read of all macros (no Flow). Used by BootReceiver to re-register alarms. */
+    @Query("SELECT * FROM macros ORDER BY createdAt DESC")
+    suspend fun getAllMacrosOnce(): List<MacroEntity>
 }

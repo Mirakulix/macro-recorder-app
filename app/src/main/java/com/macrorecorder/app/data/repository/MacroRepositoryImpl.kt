@@ -42,4 +42,7 @@ class MacroRepositoryImpl(
 
     override suspend fun loadEvents(macroId: String): List<TouchEvent> =
         touchEventStorage.load(macroId)
+
+    override suspend fun getAllMacrosOnce(): List<Macro> =
+        macroDao.getAllMacrosOnce().map { it.toDomain(gson) }
 }

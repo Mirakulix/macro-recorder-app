@@ -109,6 +109,15 @@
             </intent-filter>
         </receiver>
 
+        <!-- Fires when a scheduled macro alarm triggers -->
+        <receiver
+            android:name=".service.execution.ScheduledMacroReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.macrorecorder.app.RUN_SCHEDULED_MACRO" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

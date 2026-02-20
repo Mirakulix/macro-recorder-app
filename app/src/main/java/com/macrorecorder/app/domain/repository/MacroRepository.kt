@@ -29,4 +29,7 @@ interface MacroRepository {
 
     /** Loads the recorded touch-event sequence for playback. Returns empty list if not found. */
     suspend fun loadEvents(macroId: String): List<TouchEvent>
+
+    /** One-shot read of all macros. Used by [BootReceiver] to re-register alarms after reboot. */
+    suspend fun getAllMacrosOnce(): List<Macro>
 }

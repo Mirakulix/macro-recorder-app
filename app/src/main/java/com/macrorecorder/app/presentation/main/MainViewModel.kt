@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.macrorecorder.app.MacroRecorderApp
 import com.macrorecorder.app.domain.model.Macro
+import com.macrorecorder.app.service.execution.MacroScheduler
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -23,6 +24,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteMacro(macro: Macro) {
         viewModelScope.launch {
+            MacroScheduler.cancel(getApplication(), macro.id)
             repository.deleteMacro(macro.id)
         }
     }
