@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand / primary -->
+    <color name="primary">#E53935</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#FFCDD2</color>
+    <color name="on_primary_container">#B71C1C</color>
+
+    <!-- Secondary -->
+    <color name="secondary">#546E7A</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <!-- Surface -->
+    <color name="background">#FAFAFA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1C1B1F</color>
+    <color name="surface_variant">#F5F5F5</color>
+
+    <!-- Recording indicator (pulsing red dot on overlay widget) -->
+    <color name="recording_indicator">#F44336</color>
+</resources>

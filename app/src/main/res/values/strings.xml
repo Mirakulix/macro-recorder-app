@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Macro Recorder</string>
+
+    <!-- Accessibility service -->
+    <string name="accessibility_service_label">Macro Recorder Service</string>
+    <string name="accessibility_service_description">Macro Recorder uses the Accessibility Service to capture and replay touchscreen inputs.</string>
+
+    <!-- Main screen -->
+    <string name="btn_new_recording">New Recording</string>
+    <string name="menu_settings">Settings</string>
+    <string name="label_saved_macros">Saved Macros</string>
+    <string name="label_no_macros">No macros yet.\nTap the button to record your first macro.</string>
+
+    <!-- Notification channels -->
+    <string name="notification_channel_recording_name">Recording</string>
+    <string name="notification_channel_recording_desc">Shown while a macro is being recorded</string>
+    <string name="notification_channel_playback_name">Playback</string>
+    <string name="notification_channel_playback_desc">Shown while a macro is running</string>
+
+    <!-- Notification content -->
+    <string name="notification_recording_title">Recording in progress</string>
+    <string name="notification_recording_text">Touch anywhere to record. Use the widget to stop.</string>
+    <string name="notification_playback_title">Macro running</string>
+    <string name="notification_action_stop">Stop</string>
+    <string name="notification_action_pause">Pause</string>
+
+    <!-- Permission dialog -->
+    <string name="permission_dialog_title">Permissions required</string>
+    <string name="permission_accessibility_label">Accessibility Service</string>
+    <string name="permission_overlay_label">Display over other apps</string>
+    <string name="permission_notification_label">Notifications</string>
+    <string name="btn_go_to_settings">Go to Settings</string>
+    <string name="btn_later">Later</string>
+
+    <!-- General -->
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_delete">Delete</string>
+    <string name="dialog_delete_macro_title">Delete macro?</string>
+    <string name="dialog_delete_macro_message">This action cannot be undone.</string>
+</resources>
