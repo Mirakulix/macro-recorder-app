@@ -9,6 +9,7 @@ import com.macrorecorder.app.databinding.ItemMacroBinding
 import com.macrorecorder.app.domain.model.Macro
 
 class MacroAdapter(
+    private val onEdit:   (Macro) -> Unit,
     private val onPlay:   (Macro) -> Unit,
     private val onDelete: (Macro) -> Unit
 ) : ListAdapter<Macro, MacroAdapter.ViewHolder>(DIFF) {
@@ -26,6 +27,7 @@ class MacroAdapter(
         fun bind(macro: Macro) {
             b.tvMacroName.text = macro.name
             b.tvDuration.text  = buildSubtitle(macro)
+            b.btnEdit.setOnClickListener   { onEdit(macro) }
             b.btnPlay.setOnClickListener   { onPlay(macro) }
             b.btnDelete.setOnClickListener { onDelete(macro) }
         }

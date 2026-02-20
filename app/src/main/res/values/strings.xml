@@ -47,7 +47,26 @@
 
     <!-- Macro list -->
     <string name="btn_play_macro">Play macro</string>
+    <string name="btn_edit_macro">Edit macro settings</string>
     <string name="label_saved_macros_count">%1$d macros</string>
+
+    <!-- Macro detail / settings screen -->
+    <string name="title_macro_settings">Macro Settings</string>
+    <string name="hint_macro_name">Name</string>
+    <string name="section_playback">Playback</string>
+    <string name="label_repeat_count">Repeat count</string>
+    <string name="desc_repeat_infinite">Enable to loop forever</string>
+    <string name="label_infinite">∞</string>
+    <string name="hint_repeat_count">Number of runs</string>
+    <string name="label_speed">Playback speed</string>
+    <string name="label_speed_slow">0.25×</string>
+    <string name="label_speed_fast">4.0×</string>
+    <string name="hint_pause_between_runs">Pause between runs</string>
+    <string name="suffix_seconds">s</string>
+    <string name="section_behavior">Behavior</string>
+    <string name="label_emergency_stop">Emergency stop (triple-press volume)</string>
+    <string name="label_vibration">Vibration feedback</string>
+    <string name="label_visual_indicator">Visual touch indicator</string>
 
     <!-- General -->
     <string name="btn_save">Save</string>

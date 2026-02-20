@@ -54,6 +54,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".presentation.detail.MacroDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".presentation.main.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- ── Accessibility Service ──────────────────────────────────── -->
         <!--
             Captures touch events during recording and dispatches gestures

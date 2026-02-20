@@ -18,6 +18,7 @@ import com.macrorecorder.app.databinding.ActivityMainBinding
 import com.macrorecorder.app.domain.model.Macro
 import com.macrorecorder.app.domain.model.MacroSettings
 import com.macrorecorder.app.presentation.permission.PermissionDialogFragment
+import com.macrorecorder.app.presentation.detail.MacroDetailActivity
 import com.macrorecorder.app.service.execution.ExecutionForegroundService
 import com.macrorecorder.app.service.recording.RecordingForegroundService
 import com.macrorecorder.app.service.recording.RecordingManager
@@ -85,6 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = MacroAdapter(
+            onEdit   = { macro -> openDetail(macro) },
             onPlay   = { macro -> startPlayback(macro) },
             onDelete = { macro -> confirmDelete(macro) }
         )
@@ -108,6 +110,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun startRecording() {
         startService(RecordingForegroundService.startIntent(this))
+    }
+
+    // ── Detail ────────────────────────────────────────────────────────────────
+
+    private fun openDetail(macro: Macro) {
+        startActivity(MacroDetailActivity.startIntent(this, macro.id))
     }
 
     // ── Playback ──────────────────────────────────────────────────────────────
