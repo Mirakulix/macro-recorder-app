@@ -86,6 +86,14 @@
     <string name="picker_select_date">Select date</string>
     <string name="picker_select_time">Select time</string>
 
+    <!-- Export / import -->
+    <string name="menu_export">Export</string>
+    <string name="menu_import">Import</string>
+    <string name="toast_export_success">Macro exported successfully</string>
+    <string name="toast_export_error">Export failed</string>
+    <string name="toast_import_success">Imported: %1$s</string>
+    <string name="toast_import_error">Import failed — invalid macro file</string>
+
     <!-- General -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>

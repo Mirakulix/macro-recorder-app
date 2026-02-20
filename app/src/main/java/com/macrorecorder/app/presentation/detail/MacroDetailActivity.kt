@@ -3,7 +3,11 @@ package com.macrorecorder.app.presentation.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -15,6 +19,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.macrorecorder.app.R
 import com.macrorecorder.app.databinding.ActivityMacroDetailBinding
+import com.macrorecorder.app.util.MacroExporter
 import com.macrorecorder.app.domain.model.Macro
 import com.macrorecorder.app.domain.model.MacroSettings
 import com.macrorecorder.app.service.execution.MacroScheduler
@@ -53,6 +58,15 @@ class MacroDetailActivity : AppCompatActivity() {
     // Picked one-time scheduled timestamp; null = not set / cleared
     private var pickedScheduledTimeMs: Long? = null
 
+    private val exportLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument(MacroExporter.MIME_TYPE)) { uri ->
+            uri ?: return@registerForActivityResult
+            viewModel.export(this, uri) { success ->
+                val msg = if (success) R.string.toast_export_success else R.string.toast_export_error
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+        }
+
     // Map chip view-ID → Calendar.DAY_OF_WEEK constant (Mon=2 … Sun=1)
     private val chipDayMap = linkedMapOf(
         R.id.chipMon to Calendar.MONDAY,
@@ -78,6 +92,7 @@ class MacroDetailActivity : AppCompatActivity() {
         setupInfiniteSwitch()
         setupSchedulePickers()
         setupSaveButton()
+        setupExportMenu()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -85,6 +100,19 @@ class MacroDetailActivity : AppCompatActivity() {
                     if (macro != null) populateFields(macro)
                 }
             }
+        }
+    }
+
+    // ── Menu ──────────────────────────────────────────────────────────────────
+
+    private fun setupExportMenu() {
+        binding.toolbar.inflateMenu(R.menu.menu_macro_detail)
+        binding.toolbar.setOnMenuItemClickListener { item ->
+            if (item.itemId == R.id.action_export) {
+                val name = viewModel.macro.value?.name ?: "macro"
+                exportLauncher.launch(MacroExporter.suggestedFilename(name))
+                true
+            } else false
         }
     }
 

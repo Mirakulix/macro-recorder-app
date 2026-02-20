@@ -2,8 +2,11 @@ package com.macrorecorder.app.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -17,11 +20,11 @@ import com.macrorecorder.app.R
 import com.macrorecorder.app.databinding.ActivityMainBinding
 import com.macrorecorder.app.domain.model.Macro
 import com.macrorecorder.app.domain.model.MacroSettings
-import com.macrorecorder.app.presentation.permission.PermissionDialogFragment
 import com.macrorecorder.app.presentation.detail.MacroDetailActivity
 import com.macrorecorder.app.service.execution.ExecutionForegroundService
 import com.macrorecorder.app.service.recording.RecordingForegroundService
 import com.macrorecorder.app.service.recording.RecordingManager
+import com.macrorecorder.app.util.MacroExporter
 import com.macrorecorder.app.util.PermissionManager
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -41,6 +44,16 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: MacroAdapter
 
+    // ── Activity result launchers ─────────────────────────────────────────────
+
+    private val importLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri ?: return@registerForActivityResult
+            viewModel.importMacro(uri)
+        }
+
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
         observeMacros()
+        observeImportResult()
 
         binding.fabNewRecording.setOnClickListener {
             if (permissionManager.allCriticalGranted()) {
@@ -62,9 +76,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (intent?.action == ACTION_SHOW_SAVE_DIALOG) {
-            showSaveDialog()
-        }
+        handleIntent(intent)
     }
 
     override fun onResume() {
@@ -77,9 +89,32 @@ class MainActivity : AppCompatActivity() {
     /** Called when the activity is already running and receives a new intent (singleTop). */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent?.action == ACTION_SHOW_SAVE_DIALOG) {
-            showSaveDialog()
+        intent ?: return
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            ACTION_SHOW_SAVE_DIALOG -> showSaveDialog()
+            Intent.ACTION_VIEW      -> intent.data?.let { viewModel.importMacro(it) }
         }
+    }
+
+    // ── Options menu ──────────────────────────────────────────────────────────
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_import) {
+            importLauncher.launch(
+                arrayOf(MacroExporter.MIME_TYPE, "application/json", "*/*")
+            )
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     // ── RecyclerView ──────────────────────────────────────────────────────────
@@ -101,6 +136,22 @@ class MainActivity : AppCompatActivity() {
                     adapter.submitList(macros)
                     binding.tvEmptyState.visibility =
                         if (macros.isEmpty()) View.VISIBLE else View.GONE
+                }
+            }
+        }
+    }
+
+    private fun observeImportResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.importResult.collect { result ->
+                    val msg = when (result) {
+                        is MainViewModel.ImportResult.Success ->
+                            getString(R.string.toast_import_success, result.macroName)
+                        is MainViewModel.ImportResult.Error ->
+                            getString(R.string.toast_import_error)
+                    }
+                    Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -141,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         val result = RecordingManager.lastResult
         if (result == null || result.events.isEmpty()) return
 
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_save_macro, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_save_macro, null)
         val etName = dialogView.findViewById<TextInputEditText>(R.id.etMacroName).apply {
             val timestamp = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
             setText(getString(R.string.dialog_save_macro_default_name, timestamp))
@@ -179,9 +230,12 @@ class MainActivity : AppCompatActivity() {
     // ── Permissions ───────────────────────────────────────────────────────────
 
     private fun showPermissionDialog() {
-        if (supportFragmentManager.findFragmentByTag(PermissionDialogFragment.TAG) == null) {
-            PermissionDialogFragment.newInstance()
-                .show(supportFragmentManager, PermissionDialogFragment.TAG)
+        if (supportFragmentManager.findFragmentByTag(
+                com.macrorecorder.app.presentation.permission.PermissionDialogFragment.TAG) == null
+        ) {
+            com.macrorecorder.app.presentation.permission.PermissionDialogFragment.newInstance()
+                .show(supportFragmentManager,
+                    com.macrorecorder.app.presentation.permission.PermissionDialogFragment.TAG)
         }
     }
 }
