@@ -3,6 +3,7 @@ package com.macrorecorder.app
 import android.app.Application
 import com.google.gson.Gson
 import com.macrorecorder.app.data.local.db.AppDatabase
+import com.macrorecorder.app.data.local.storage.ThumbnailStorage
 import com.macrorecorder.app.data.local.storage.TouchEventStorage
 import com.macrorecorder.app.data.repository.MacroRepositoryImpl
 import com.macrorecorder.app.domain.repository.MacroRepository
@@ -20,6 +21,7 @@ class MacroRecorderApp : Application() {
         MacroRepositoryImpl(
             macroDao = database.macroDao(),
             touchEventStorage = TouchEventStorage(this),
+            thumbnailStorage = ThumbnailStorage(this),
             gson = Gson()
         )
     }

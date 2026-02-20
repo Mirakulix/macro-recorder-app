@@ -2,18 +2,21 @@ package com.macrorecorder.app.data.repository
 
 import com.google.gson.Gson
 import com.macrorecorder.app.data.local.db.MacroDao
+import com.macrorecorder.app.data.local.storage.ThumbnailStorage
 import com.macrorecorder.app.data.local.storage.TouchEventStorage
 import com.macrorecorder.app.data.mapper.toDomain
 import com.macrorecorder.app.data.mapper.toEntity
 import com.macrorecorder.app.domain.model.Macro
 import com.macrorecorder.app.domain.model.TouchEvent
 import com.macrorecorder.app.domain.repository.MacroRepository
+import com.macrorecorder.app.util.ThumbnailGenerator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class MacroRepositoryImpl(
     private val macroDao: MacroDao,
     private val touchEventStorage: TouchEventStorage,
+    private val thumbnailStorage: ThumbnailStorage,
     private val gson: Gson = Gson()
 ) : MacroRepository {
 
@@ -28,7 +31,11 @@ class MacroRepositoryImpl(
 
     override suspend fun saveMacro(macro: Macro, events: List<TouchEvent>) {
         touchEventStorage.save(macro.id, events)
-        macroDao.insertMacro(macro.toEntity(gson))
+        val thumbPath = runCatching {
+            val bmp = ThumbnailGenerator.generate(events)
+            thumbnailStorage.save(macro.id, bmp)
+        }.getOrNull()
+        macroDao.insertMacro(macro.copy(thumbnailPath = thumbPath).toEntity(gson))
     }
 
     override suspend fun updateMacro(macro: Macro) {
@@ -37,6 +44,7 @@ class MacroRepositoryImpl(
 
     override suspend fun deleteMacro(id: String) {
         touchEventStorage.delete(id)
+        thumbnailStorage.delete(id)
         macroDao.deleteMacroById(id)
     }
 
