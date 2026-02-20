@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Floating overlay widget shown during recording.
+    The entire card can be dragged via the drag-handle strip at the top.
+    RecordingForegroundService attaches the OnTouchListener for dragging.
+-->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:alpha="0.93"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ── Drag handle ───────────────────────────────────── -->
+        <LinearLayout
+            android:id="@+id/dragHandle"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="?attr/colorSurfaceVariant"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Three short horizontal dots indicate drag affordance -->
+            <View
+                android:layout_width="24dp"
+                android:layout_height="3dp"
+                android:layout_marginEnd="3dp"
+                android:background="@color/secondary" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="3dp"
+                android:layout_marginEnd="3dp"
+                android:background="@color/secondary" />
+            <View
+                android:layout_width="24dp"
+                android:layout_height="3dp"
+                android:background="@color/secondary" />
+        </LinearLayout>
+
+        <!-- ── Controls ──────────────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp">
+
+            <!-- Pulsing red recording indicator -->
+            <View
+                android:id="@+id/viewRecordingDot"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/shape_recording_dot" />
+
+            <!-- Pause / Resume toggle -->
+            <ImageButton
+                android:id="@+id/btnPause"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/notification_action_pause"
+                android:src="@drawable/ic_pause" />
+
+            <!-- Stop recording -->
+            <ImageButton
+                android:id="@+id/btnStop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/notification_action_stop"
+                android:src="@drawable/ic_stop"
+                app:tint="@color/recording_indicator" />
+
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

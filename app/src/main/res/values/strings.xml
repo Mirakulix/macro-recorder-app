@@ -39,6 +39,12 @@
     <string name="btn_fix">Fix</string>
     <string name="btn_later">Later</string>
 
+    <!-- Save recording dialog -->
+    <string name="dialog_save_macro_title">Save Recording</string>
+    <string name="dialog_save_macro_hint">Macro name</string>
+    <string name="dialog_save_macro_default_name">Macro %1$s</string>
+    <string name="dialog_discard">Discard</string>
+
     <!-- General -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
