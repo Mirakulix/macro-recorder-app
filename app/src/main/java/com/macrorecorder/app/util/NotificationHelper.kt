@@ -75,15 +75,19 @@ object NotificationHelper {
         context: Context,
         macroName: String,
         currentRun: Int,
-        totalRuns: Int
+        totalRuns: Int,
+        stopPendingIntent: PendingIntent? = null
     ): Notification {
         val progress = if (totalRuns == -1) "run $currentRun ∞" else "$currentRun / $totalRuns"
-        return NotificationCompat.Builder(context, CHANNEL_PLAYBACK_ID)
+        val builder = NotificationCompat.Builder(context, CHANNEL_PLAYBACK_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(context.getString(R.string.notification_playback_title))
             .setContentText("$macroName — $progress")
             .setOngoing(true)
             .setSilent(true)
-            .build()
+        stopPendingIntent?.let {
+            builder.addAction(R.drawable.ic_stop, context.getString(R.string.notification_action_stop), it)
+        }
+        return builder.build()
     }
 }

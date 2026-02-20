@@ -3,8 +3,12 @@ package com.macrorecorder.app.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -14,6 +18,7 @@ import com.macrorecorder.app.databinding.ActivityMainBinding
 import com.macrorecorder.app.domain.model.Macro
 import com.macrorecorder.app.domain.model.MacroSettings
 import com.macrorecorder.app.presentation.permission.PermissionDialogFragment
+import com.macrorecorder.app.service.execution.ExecutionForegroundService
 import com.macrorecorder.app.service.recording.RecordingForegroundService
 import com.macrorecorder.app.service.recording.RecordingManager
 import com.macrorecorder.app.util.PermissionManager
@@ -32,6 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var permissionManager: PermissionManager
+    private val viewModel: MainViewModel by viewModels()
+    private lateinit var adapter: MacroAdapter
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -43,7 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         permissionManager = PermissionManager(this)
 
-        binding.recyclerViewMacros.layoutManager = LinearLayoutManager(this)
+        setupRecyclerView()
+        observeMacros()
 
         binding.fabNewRecording.setOnClickListener {
             if (permissionManager.allCriticalGranted()) {
@@ -53,13 +61,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Handle the case where the activity was launched via ACTION_SHOW_SAVE_DIALOG
-        // (e.g. cold start while recording was running)
         if (intent?.action == ACTION_SHOW_SAVE_DIALOG) {
             showSaveDialog()
         }
-
-        // TODO: observe MainViewModel.macroList → update adapter + empty-state visibility
     }
 
     override fun onResume() {
@@ -77,10 +81,50 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ── RecyclerView ──────────────────────────────────────────────────────────
+
+    private fun setupRecyclerView() {
+        adapter = MacroAdapter(
+            onPlay   = { macro -> startPlayback(macro) },
+            onDelete = { macro -> confirmDelete(macro) }
+        )
+        binding.recyclerViewMacros.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewMacros.adapter = adapter
+    }
+
+    private fun observeMacros() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.macros.collect { macros ->
+                    adapter.submitList(macros)
+                    binding.tvEmptyState.visibility =
+                        if (macros.isEmpty()) View.VISIBLE else View.GONE
+                }
+            }
+        }
+    }
+
     // ── Recording ─────────────────────────────────────────────────────────────
 
     private fun startRecording() {
         startService(RecordingForegroundService.startIntent(this))
+    }
+
+    // ── Playback ──────────────────────────────────────────────────────────────
+
+    private fun startPlayback(macro: Macro) {
+        startService(ExecutionForegroundService.startIntent(this, macro.id))
+    }
+
+    // ── Delete ────────────────────────────────────────────────────────────────
+
+    private fun confirmDelete(macro: Macro) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_delete_macro_title)
+            .setMessage(R.string.dialog_delete_macro_message)
+            .setPositiveButton(R.string.btn_delete) { _, _ -> viewModel.deleteMacro(macro) }
+            .setNegativeButton(R.string.btn_cancel, null)
+            .show()
     }
 
     // ── Save dialog ───────────────────────────────────────────────────────────
@@ -121,7 +165,6 @@ class MainActivity : AppCompatActivity() {
                 settings   = MacroSettings()
             )
             repo.saveMacro(macro, result.events)
-            // TODO: trigger list refresh via ViewModel
         }
     }
 
